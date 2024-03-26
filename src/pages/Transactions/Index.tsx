@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Header } from "../../components/Header/Index";
 import { Summary } from "../../components/Summary/Index";
 import { SearchForm } from "./components/SearchForm";
@@ -9,6 +10,16 @@ import {
 } from "./styles";
 
 export function Transactions() {
+  useEffect(() => {
+    fetch(
+      "https://jubilant-meme-7jwgwv6q5pghrpv4-3000.app.github.dev/transactions"
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data.transactions);
+      });
+  }, []);
+
   return (
     <div>
       <Header />

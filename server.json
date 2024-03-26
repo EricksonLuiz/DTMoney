@@ -1,0 +1,20 @@
+{
+  "transactions": [
+    {
+      "id": 1,
+      "description": "Desenvolvimento de site",
+      "type": "income",
+      "category": "Venda",
+      "price": 14250,
+      "createdAt": "2024-03-26T18:23:57.747Z"
+    },
+    {
+      "id": 2,
+      "description": "Gasolina",
+      "type": "outcome",
+      "category": "Compra",
+      "price": 120,
+      "createdAt": "2024-03-25T18:23:57.747Z"
+    }
+  ]
+}
