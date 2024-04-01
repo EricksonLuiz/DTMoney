@@ -5,7 +5,7 @@
       "description": "Desenvolvimento de site",
       "type": "income",
       "category": "Venda",
-      "price": 14250,
+      "price": 3000,
       "createdAt": "2024-03-26T18:23:57.747Z"
     },
     {
@@ -13,7 +13,23 @@
       "description": "Gasolina",
       "type": "outcome",
       "category": "Compra",
-      "price": 120,
+      "price": 100,
+      "createdAt": "2024-03-25T18:23:57.747Z"
+    },
+    {
+      "id": 2,
+      "description": "Logo",
+      "type": "income",
+      "category": "Compra",
+      "price": 1000,
+      "createdAt": "2024-03-25T18:23:57.747Z"
+    },
+    {
+      "id": 2,
+      "description": "Gospedagem",
+      "type": "outcome",
+      "category": "Compra",
+      "price": 250,
       "createdAt": "2024-03-25T18:23:57.747Z"
     }
   ]

@@ -1,24 +1,27 @@
-import { useEffect } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Header } from "../../components/Header/Index";
 import { Summary } from "../../components/Summary/Index";
 import { SearchForm } from "./components/SearchForm";
+import { TransactionsContext } from "../../contexts/TransactionsContaxt";
 import {
   PriceHighLight,
   TransactionContainer,
   TransactionTable,
   TransactionTableAll,
 } from "./styles";
+import { dateFormatter, priceFormatter } from "../../utils/formatter";
+
+interface Transactions {
+  id: number;
+  description: string;
+  type: "income" | "outcome";
+  price: number;
+  category: string;
+  createdAt: string;
+}
 
 export function Transactions() {
-  useEffect(() => {
-    fetch(
-      "https://jubilant-meme-7jwgwv6q5pghrpv4-3000.app.github.dev/transactions"
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data.transactions);
-      });
-  }, []);
+  const { transactions } = useContext(TransactionsContext);
 
   return (
     <div>
@@ -30,80 +33,23 @@ export function Transactions() {
         <TransactionTableAll>
           <TransactionTable>
             <tbody>
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="income">R$ 12.000,00</PriceHighLight>
-                </td>
-                <td>Venda</td>
-                <td>13/04/2022</td>
-              </tr>
-
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="outcome">
-                    - R$ 12.000,00
-                  </PriceHighLight>
-                </td>
-                <td>Alimentação</td>
-                <td>10/04/2022</td>
-              </tr>
-
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="outcome">
-                    - R$ 12.000,00
-                  </PriceHighLight>
-                </td>
-                <td>Alimentação</td>
-                <td>10/04/2022</td>
-              </tr>
-
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="outcome">
-                    - R$ 12.000,00
-                  </PriceHighLight>
-                </td>
-                <td>Alimentação</td>
-                <td>10/04/2022</td>
-              </tr>
-
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="outcome">
-                    - R$ 12.000,00
-                  </PriceHighLight>
-                </td>
-                <td>Alimentação</td>
-                <td>10/04/2022</td>
-              </tr>
-
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="outcome">
-                    - R$ 12.000,00
-                  </PriceHighLight>
-                </td>
-                <td>Alimentação</td>
-                <td>10/04/2022</td>
-              </tr>
-
-              <tr>
-                <td width="50%">Tipo Transação</td>
-                <td>
-                  <PriceHighLight variant="outcome">
-                    - R$ 12.000,00
-                  </PriceHighLight>
-                </td>
-                <td>Alimentação</td>
-                <td>10/04/2022</td>
-              </tr>
+              {transactions.map((transactions) => {
+                return (
+                  <tr key={transactions.id}>
+                    <td width="50%">{transactions.description}</td>
+                    <td>
+                      <PriceHighLight variant={transactions.type}>
+                        {transactions.type === "outcome" && "- "}
+                        {priceFormatter.format(transactions.price)}
+                      </PriceHighLight>
+                    </td>
+                    <td>{transactions.category}</td>
+                    <td>
+                      {dateFormatter.format(new Date(transactions.createdAt))}
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </TransactionTable>
         </TransactionTableAll>

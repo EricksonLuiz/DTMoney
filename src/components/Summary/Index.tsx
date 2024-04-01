@@ -1,33 +1,56 @@
 import { ArrowCircleDown, ArrowCircleUp, CurrencyDollar } from "phosphor-react";
 import { SummaryCOntainer, SummaryCard } from "./styles";
+import { useContext } from "react";
+import { TransactionsContext } from "../../contexts/TransactionsContaxt";
+import { priceFormatter } from "../../utils/formatter";
 
-export function Summary(){
-    return(
-        <SummaryCOntainer>
-            <SummaryCard>
-                <header>
-                    <span>Entradas</span>
-                    <ArrowCircleUp size={32} color="#07eb2d" />
-                </header>
-                <strong> R$ 15.375,00</strong>
-            </SummaryCard>
+export function Summary() {
+  const { transactions } = useContext(TransactionsContext);
 
-            <SummaryCard>
-                <header>
-                    <span>Saídas</span>
-                    <ArrowCircleDown size={32} color="#be1523" />
-                </header>
-                <strong> R$ 15.375,00</strong>
-            </SummaryCard>
+  const summary = transactions.reduce(
+    (acc, transaction) => {
+      if (transaction.type === "income") {
+        acc.income += transaction.price;
+        acc.total += transaction.price;
+      } else {
+        acc.outcome += transaction.price;
+        acc.total -= transaction.price;
+      }
 
-            <SummaryCard variant="green">
-                <header>
-                    <span>Total</span>
-                    <CurrencyDollar size={32} color="#ffffff" />
-                </header>
-                <strong> R$ 15.375,00</strong>
-            </SummaryCard>
-        </SummaryCOntainer>
+      return acc;
+    },
+    {
+      income: 0,
+      outcome: 0,
+      total: 0,
+    }
+  );
 
-    )
+  return (
+    <SummaryCOntainer>
+      <SummaryCard>
+        <header>
+          <span>Entradas</span>
+          <ArrowCircleUp size={32} color="#07eb2d" />
+        </header>
+        <strong> {priceFormatter.format(summary.income)} </strong>
+      </SummaryCard>
+
+      <SummaryCard>
+        <header>
+          <span>Saídas</span>
+          <ArrowCircleDown size={32} color="#be1523" />
+        </header>
+        <strong> {priceFormatter.format(summary.outcome)}</strong>
+      </SummaryCard>
+
+      <SummaryCard variant="green">
+        <header>
+          <span>Total</span>
+          <CurrencyDollar size={32} color="#ffffff" />
+        </header>
+        <strong> {priceFormatter.format(summary.total)}</strong>
+      </SummaryCard>
+    </SummaryCOntainer>
+  );
 }
